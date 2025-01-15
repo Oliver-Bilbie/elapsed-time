@@ -97,3 +97,7 @@ resource "aws_lambda_permission" "reset_time_permission" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.websocket_api.execution_arn}/*"
 }
+
+output "websocket_endpoint" {
+  value = "${aws_apigatewayv2_api.websocket_api.api_endpoint}/${aws_apigatewayv2_stage.websocket_stage.name}"
+}

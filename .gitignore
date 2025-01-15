@@ -1,3 +1,3 @@
-server/*.zip
+build
 server/.terraform
 server/.terraform.lock.hcl

@@ -1,5 +1,4 @@
-const websocketUrl =
-  "wss://444dd6kia2.execute-api.eu-west-1.amazonaws.com/prod";
+const websocketUrl = "ELAPSED_TIME_ENDPOINT";
 
 let socket;
 let calibratedElapsedSeconds = null;

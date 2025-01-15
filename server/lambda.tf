@@ -61,8 +61,8 @@ resource "aws_lambda_function" "server" {
   handler          = "server.lambda_handler"
   timeout          = 10
   memory_size      = 128
-  filename         = "${path.module}/server.zip"
-  source_code_hash = filebase64sha256("${path.module}/server.zip")
+  filename         = "${path.module}/../build/server/server.zip"
+  source_code_hash = filebase64sha256("${path.module}/../build/server/server.zip")
 
   environment {
     variables = {
