@@ -1,0 +1,5 @@
+region = "eu-west-1"
+app_name = "elapsed-time"
+base_domain = "my-domain.com"
+full_domain = "timer.my-domain.com"
+cert_arn = "arn:aws:acm:us-east-1:123456123456:certificate/a6f7e46c-0d13-4d9e-90d7-9b4e899f8cc9"

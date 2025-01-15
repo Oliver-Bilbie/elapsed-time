@@ -1,0 +1,3 @@
+server/*.zip
+server/.terraform
+server/.terraform.lock.hcl
