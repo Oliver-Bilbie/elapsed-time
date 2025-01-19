@@ -3,6 +3,7 @@ const websocketUrl = "ELAPSED_TIME_ENDPOINT";
 let socket;
 let calibratedElapsedSeconds = null;
 let clientStartTime = null;
+let updateInterval = null;
 
 const output = document.getElementById("counter");
 const resetTimeButton = document.getElementById("resetButton");
@@ -28,7 +29,14 @@ function updateElapsedTime() {
   }
 }
 
-function connectWebSocket() {
+function startUpdatingElapsedTime() {
+  if (updateInterval) {
+    clearInterval(updateInterval);
+  }
+  updateInterval = setInterval(updateElapsedTime, 1000);
+}
+
+function connectWebSocket(retryDelay = 3000) {
   socket = new WebSocket(websocketUrl);
 
   socket.onopen = () => {
@@ -49,7 +57,7 @@ function connectWebSocket() {
         // Update the displayed elapsed time immediately
         updateElapsedTime();
         // Start real-time updates
-        setInterval(updateElapsedTime, 1000);
+        startUpdatingElapsedTime();
       } else {
         console.warn("Unexpected WebSocket message:", data);
       }
@@ -59,9 +67,14 @@ function connectWebSocket() {
   };
 
   socket.onclose = () => {
-    console.log("WebSocket connection closed. Reconnecting in 3 seconds...");
+    console.log(
+      `WebSocket connection closed. Reconnecting in ${retryDelay / 1000} seconds...`,
+    );
     output.textContent = "WebSocket connection closed. Reconnecting...";
-    setTimeout(connectWebSocket, 3000);
+    setTimeout(
+      () => connectWebSocket(Math.min(retryDelay * 2, 30000)),
+      retryDelay,
+    );
   };
 
   socket.onerror = (error) => {
@@ -76,6 +89,16 @@ resetTimeButton.addEventListener("click", () => {
     console.log("Sent reset_time action");
   } else {
     console.warn("WebSocket is not open. Reset time action not sent.");
+  }
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (
+    document.visibilityState === "visible" &&
+    socket.readyState !== WebSocket.OPEN
+  ) {
+    console.log("Page became visible. Reconnecting WebSocket...");
+    connectWebSocket();
   }
 });
 
