@@ -20,7 +20,7 @@ This architecture avoids the need for constant polling as would be the case with
 
 - Your machine must be authenticated into an AWS account with sufficient permissions to deploy the infrastructure.
 - You must have a Route53 hosted zone available on the AWS account.
-  - You must have an ACM certificate for the desired full domain name available on the AWS account.
+- You must have an ACM certificate for the desired domain name available on the AWS account.
 - Your machine must have terraform installed.
 
 1. Configure a terraform backend in `./server/terraform.tfvars`. I recommend using an S3 backend as I have done; this will involve creating an S3 bucket and a DynamoDB table, then providing the names of these in the aforementioned file.

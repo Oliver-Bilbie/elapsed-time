@@ -15,7 +15,7 @@ function formatElapsedTime(seconds) {
   const minutes = Math.floor(seconds / 60);
   seconds = Math.floor(seconds % 60);
 
-  return `${days} Days, ${hours} Hours, ${minutes} Minutes, ${seconds} Seconds`;
+  return `${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
 
 function updateElapsedTime() {
