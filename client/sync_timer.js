@@ -40,7 +40,6 @@ function connectWebSocket(retryDelay = 3000) {
   socket = new WebSocket(websocketUrl);
 
   socket.onopen = () => {
-    console.log("WebSocket connection opened.");
     output.textContent = "Loading...";
     socket.send(JSON.stringify({ action: "get_time" }));
   };
@@ -50,7 +49,6 @@ function connectWebSocket(retryDelay = 3000) {
       const data = JSON.parse(event.data);
 
       if (data.timestamp && typeof data.elapsed_seconds === "number") {
-        console.log("Received timestamp and elapsed time:", data);
         calibratedElapsedSeconds = data.elapsed_seconds;
         clientStartTime = Date.now();
 
@@ -86,7 +84,6 @@ function connectWebSocket(retryDelay = 3000) {
 resetTimeButton.addEventListener("click", () => {
   if (socket.readyState === WebSocket.OPEN) {
     socket.send(JSON.stringify({ action: "reset_time" }));
-    console.log("Sent reset_time action");
   } else {
     console.warn("WebSocket is not open. Reset time action not sent.");
   }
@@ -97,7 +94,6 @@ document.addEventListener("visibilitychange", () => {
     document.visibilityState === "visible" &&
     socket.readyState !== WebSocket.OPEN
   ) {
-    console.log("Page became visible. Reconnecting WebSocket...");
     connectWebSocket();
   }
 });
