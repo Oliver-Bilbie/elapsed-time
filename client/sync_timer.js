@@ -36,12 +36,13 @@ function startUpdatingElapsedTime() {
   updateInterval = setInterval(updateElapsedTime, 1000);
 }
 
-function connectWebSocket(retryDelay = 3000) {
+function connectWebSocket(retryDelay = 1000) {
   socket = new WebSocket(websocketUrl);
 
   socket.onopen = () => {
     output.textContent = "Loading...";
     socket.send(JSON.stringify({ action: "get_time" }));
+    retryDelay = 1000;
   };
 
   socket.onmessage = (event) => {
@@ -70,7 +71,7 @@ function connectWebSocket(retryDelay = 3000) {
     );
     output.textContent = "WebSocket connection closed. Reconnecting...";
     setTimeout(
-      () => connectWebSocket(Math.min(retryDelay * 2, 30000)),
+      () => connectWebSocket(Math.min(retryDelay * 2, 60000)),
       retryDelay,
     );
   };
